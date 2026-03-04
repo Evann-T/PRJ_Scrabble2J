@@ -77,10 +77,15 @@ namespace Scrabble2Joueurs
         public string MotMeilleur()
         {
             string meilleur = "";
+            int meilleurPoints;
             foreach (string mot in this.lesMots)
             {
                 if (Utilitaire.PointsMot(mot) > Utilitaire.PointsMot(meilleur))
+                {
+                    meilleurPoints = Utilitaire.PointsMot(mot);
                     meilleur = mot;
+                }
+                    
             }
             return meilleur;
         }
