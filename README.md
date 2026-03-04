@@ -9,3 +9,12 @@ l’application. Les 10 mots du joueur gagnant ainsi que le mot qui a rapporté 
 affichés également.
 
 # Architecture
+Scrabble2Joueurs/
+  |-- Properties
+  |-- Références
+  |  |-- App.config
+  |-- App.xaml
+  |-- Joueur.cs
+  |-- MainWindows.xaml
+  |  |-- MainWindows.xaml.cs
+  |-- Utilitaire.cs
