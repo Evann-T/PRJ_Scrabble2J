@@ -23,9 +23,11 @@ namespace Scrabble2Joueurs
         /// Initialise l'attribut lesMots à une liste vide et l'attribut totalPoints à zéro
         /// </summary>
         /// <param name="unNom">nom du joueur</param>
-        public Joueur(string unNom)
+        public Joueur(string unNom, int unTotalPoints)
         {
-            //TODO
+            this.nom = unNom;
+            this.totalPoints = 0;
+            this.lesMots = new List<string>();
         }
         #endregion
 
@@ -37,7 +39,8 @@ namespace Scrabble2Joueurs
         /// <param name="unMot">mot proposé par le joueur</param>
         public void AjouterMot(string unMot)
         {
-            //TODO
+            this.lesMots.Add(unMot);
+            this.totalPoints += Utilitaire.PointsMot(unMot);
         }
 
         /// <summary>
@@ -46,8 +49,7 @@ namespace Scrabble2Joueurs
         /// <returns>nombre total de points du joueur</returns>
         public int GetTotalPoints()
         {
-            //TODO
-            return 0;
+            return this.totalPoints;
         }
 
         /// <summary>
@@ -56,8 +58,7 @@ namespace Scrabble2Joueurs
         /// <returns>nombre de mots du joueur</returns>
         public int GetNbMots()
         {
-            //TODO
-            return 0;
+            return this.lesMots.Count;
         }
         /// <summary>
         /// retourne la liste des mots du joueur
@@ -65,8 +66,7 @@ namespace Scrabble2Joueurs
         /// <returns>liste de mots du joueur</returns>
         public List<string> GetLesMots()
         {
-            //TODO
-            return null;
+            return this.lesMots;
         }
 
         /// <summary>
@@ -76,8 +76,13 @@ namespace Scrabble2Joueurs
         /// <returns>mot qui a rapporté le plus grand nombre de points</returns>
         public string MotMeilleur()
         {
-            //TODO
-            return "";
+            string meilleur = "";
+            foreach (string mot in this.lesMots)
+            {
+                if (Utilitaire.PointsMot(mot) > Utilitaire.PointsMot(meilleur))
+                    meilleur = mot;
+            }
+            return meilleur;
         }
         #endregion
     }
