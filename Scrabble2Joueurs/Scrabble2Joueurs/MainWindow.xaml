@@ -45,34 +45,50 @@
     </Window.Resources>
     <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="78*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="256*"/>
+            <RowDefinition Height="65*"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="DebutPartie" Grid.Row="0" >
+        <Grid x:Name="DebutPartie" Grid.Row="0" Margin="0,0,0,4" >
             <Label Content="Entrez le nom du Joueur 1" HorizontalAlignment="Left" Margin="100,15,0,0" VerticalAlignment="Top"  />
-            <TextBox x:Name="txtNomJ1" HorizontalAlignment="Left" Margin="300,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0"   Background="IndianRed" />
+            <TextBox x:Name="txtNomJ1" HorizontalAlignment="Left" Margin="300,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0"   Background="IndianRed" TextChanged="txtNomJ1_TextChanged" />
             <Label Content="Entrez le nom du Joueur 2" HorizontalAlignment="Left" Margin="100,45,0,0" VerticalAlignment="Top" />
-            <TextBox x:Name="txtNomJ2" HorizontalAlignment="Left" Margin="300,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0" Background="LightSteelBlue"/>
-            <Button x:Name="btnCommencer" Content="COMMENCER" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="600,35,0,0" />
+            <TextBox x:Name="txtNomJ2" HorizontalAlignment="Left" Margin="300,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0" Background="LightSteelBlue" TextChanged="txtNomJ2_TextChanged"/>
+            <Button x:Name="btnCommencer" Content="COMMENCER" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="600,35,0,0" Click="btnCommencer_Click" />
+            <TextBlock x:Name="txtErreur" HorizontalAlignment="Right" Margin="0,65,10,0" VerticalAlignment="Top" Background="White"/>
+
+
         </Grid>
-        <Grid x:Name="Partie" Grid.Row="1">
+        <Grid x:Name="Partie" Grid.Row="2" Margin="0,1,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
+
+
             <!-- Joueur 1 -->
             <Border x:Name="BordureJoueur1" Style="{StaticResource StyleBorder}" Grid.Column="0">
                 <Grid x:Name="PartieJoueur1" Background="IndianRed">
-                    <Label Content="Joueur 1" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" />
-                    <Label Content="Lettres disponibles :" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" />
+
+                    <TextBlock x:Name="txtInfosNomJ1" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" Background="IndianRed"/>
+                    <TextBlock x:Name="txtTourJ1" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" Background="IndianRed"/>
+
+
+                    <!--Entrer mot-->
                     <Label Content="Entrer votre mot :" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" />
-                    <TextBox x:Name="txtMotJ1" HorizontalAlignment="Left" Margin="150,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0" Background="White"/>
-                    <Button x:Name="btnValiderJ1" Content="VALIDER" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,0,0" Background="DarkRed"/>
+                    <TextBox x:Name="txtMotJ1" HorizontalAlignment="Left" Margin="150,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0" Background="White" TextChanged="txtMotJ1_TextChanged"/>
+                    <Button x:Name="btnValiderJ1" Content="VALIDER" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,0,0" Background="DarkRed" Click="btnValiderJ1_Click"/>
+                    <!--Point mot-->
                     <Label Content="Score du mot :" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="txtPointMotJ1" HorizontalAlignment="Left" Margin="112,188,0,0" VerticalAlignment="Top" Background="IndianRed"/>
+                    <!--Total Point-->
                     <Label Content="Score total du Joueur 1 :" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="txtPointTotMotJ1" HorizontalAlignment="Left" Margin="175,218,0,0" VerticalAlignment="Top" Background="IndianRed"/>
+                    <!-- Nb mot -->
                     <Label Content="Mot" HorizontalAlignment="Right" Margin="0,210,40,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="txtNbMotJ1" HorizontalAlignment="Right" Margin="0,218,30,0" VerticalAlignment="Top" Background="IndianRed"/>
                     <Label Content="/10" HorizontalAlignment="Right" Margin="0,210,5,0" VerticalAlignment="Top" />
                 </Grid>
             </Border>
@@ -80,23 +96,45 @@
             <!-- Joueur 2 -->
             <Border x:Name="BordureJoueur2" Style="{StaticResource StyleBorder}" Grid.Column="1">
                 <Grid x:Name="PartieJoueur2" Background="LightSteelBlue">
-                    <Label Content="Joueur 1" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" />
-                    <Label Content="Lettres disponibles :" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" />
+
+                    <TextBlock x:Name="txtInfosNomj2" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" Background="LightSteelBlue" />
+                    <TextBlock x:Name="txtTourJ2" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" Background="LightSteelBlue"/>
+
+
+
+                    <!--Entrer mot-->
                     <Label Content="Entrer votre mot :" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" />
-                    <TextBox x:Name="txtMotJ2" HorizontalAlignment="Left" Margin="150,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0" Background="White"/>
-                    <Button x:Name="btnValiderJ2" Content="VALIDER" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,0,0" Background="SteelBlue" />
+                    <TextBox x:Name="txtMotJ2" HorizontalAlignment="Left" Margin="150,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0" Background="White" TextChanged="txtMotJ2_TextChanged"/>
+                    <Button x:Name="btnValiderJ2" Content="VALIDER" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,0,0" Background="SteelBlue" Click="btnValiderJ2_Click" />
+                    <!-- Point mot -->
                     <Label Content="Score du mot :" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" />
-                    <Label Content="Score total du Joueur 1 :" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="txtPointMotJ2" HorizontalAlignment="Left" Margin="112,188,0,0" VerticalAlignment="Top" Background="LightSteelBlue"/>
+                    <!--Total Point-->
+                    <Label Content="Score total du Joueur 2 :" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="txtPointTotMotJ2" HorizontalAlignment="Left" Margin="175,218,0,0" VerticalAlignment="Top" Background="LightSteelBlue"/>
+
+                    <!-- nb mot -->
                     <Label Content="Mot" HorizontalAlignment="Right" Margin="0,210,40,0" VerticalAlignment="Top" />
+                    <TextBlock x:Name="txtNbMotJ2" HorizontalAlignment="Right" Margin="0,218,30,0" VerticalAlignment="Top" Background="LightSteelBlue"/>
                     <Label Content="/10" HorizontalAlignment="Right" Margin="0,210,5,0" VerticalAlignment="Top" />
                 </Grid>
             </Border>
 
         </Grid>
-        <Grid x:Name="FinPartie" Grid.Row="2">
-            <Label Content="Vainqueur :" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" />
-            <Label Content="Meilleur mot :" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" />
-            <Label Content="Liste des mots :" HorizontalAlignment="Center" Margin="10,5,0,0" VerticalAlignment="Top" />
+        <Grid x:Name="FinPartie" Grid.Row="3" Margin="0,26,0,0">
+            <Label Content="Vainqueur :" HorizontalAlignment="Left" Margin="10,-29,0,0" VerticalAlignment="Top" />
+            <Label Content="Meilleur mot :" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
+            <Label Content="Liste des mots :" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-29,0,0" />
         </Grid>
+        <!--lettres-->
+
+        <Label Content="Lettres disponibles :" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Center" Grid.Row="1" />
+        <TextBlock x:Name="txtLettre0" HorizontalAlignment="Left" Margin="351,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+        <TextBlock x:Name="txtLettre1" HorizontalAlignment="Left" Margin="381,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+        <TextBlock x:Name="txtLettre2" HorizontalAlignment="Left" Margin="411,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+        <TextBlock x:Name="txtLettre3" HorizontalAlignment="Left" Margin="441,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+        <TextBlock x:Name="txtLettre4" HorizontalAlignment="Left" Margin="471,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+        <TextBlock x:Name="txtLettre5" HorizontalAlignment="Left" Margin="501,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+        <TextBlock x:Name="txtLettre6" HorizontalAlignment="Left" Margin="531,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
     </Grid>
 </Window>

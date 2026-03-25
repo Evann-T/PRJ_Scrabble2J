@@ -23,7 +23,7 @@ namespace Scrabble2Joueurs
         /// Initialise l'attribut lesMots à une liste vide et l'attribut totalPoints à zéro
         /// </summary>
         /// <param name="unNom">nom du joueur</param>
-        public Joueur(string unNom, int unTotalPoints)
+        public Joueur(string unNom)
         {
             this.nom = unNom;
             this.totalPoints = 0;
@@ -74,20 +74,23 @@ namespace Scrabble2Joueurs
         /// parmi les mots proposés par le joueur
         /// </summary>
         /// <returns>mot qui a rapporté le plus grand nombre de points</returns>
+        
         public string MotMeilleur()
         {
-            string meilleur = "";
-            int meilleurPoints;
-            foreach (string mot in this.lesMots)
+            int maxpoints = 0;
+            string maxMot = "";
+            foreach (string m in this.lesMots)
             {
-                if (Utilitaire.PointsMot(mot) > Utilitaire.PointsMot(meilleur))
+                int pointsMot = Utilitaire.PointsMot(m);
+                if (pointsMot > maxpoints)
                 {
-                    meilleurPoints = Utilitaire.PointsMot(mot);
-                    meilleur = mot;
+                    maxpoints = pointsMot;
+                    maxMot = m;
                 }
-                    
+
             }
-            return meilleur;
+            return maxMot;
+           
         }
         #endregion
     }
