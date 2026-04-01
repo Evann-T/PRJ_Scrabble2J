@@ -122,9 +122,21 @@
 
         </Grid>
         <Grid x:Name="FinPartie" Grid.Row="3" Margin="0,26,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="351*"/>
+                <ColumnDefinition Width="49*"/>
+                <ColumnDefinition Width="400*"/>
+            </Grid.ColumnDefinitions>
             <Label Content="Vainqueur :" HorizontalAlignment="Left" Margin="10,-29,0,0" VerticalAlignment="Top" />
-            <Label Content="Meilleur mot :" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
-            <Label Content="Liste des mots :" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-29,0,0" />
+            <TextBlock x:Name="txtVainqueur" HorizontalAlignment="Left" Margin="90,-22,0,0" VerticalAlignment="Top" Background="White" />
+
+            <Label Content="Meilleur mot :" HorizontalAlignment="Left" Margin="27,-29,0,0" VerticalAlignment="Top" Grid.Column="2" />
+            <TextBlock x:Name="txtMeilleurMot" HorizontalAlignment="Left" Margin="131,-22,0,0" VerticalAlignment="Top" Background="White" Grid.Column="2"/>
+
+
+            <Label Content="Liste des mots :" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBlock x:Name="txtListeMot" HorizontalAlignment="Left" Margin="-276,9,0,0" VerticalAlignment="Center" Background="White" Grid.Column="2"/>
+
         </Grid>
         <!--lettres-->
 

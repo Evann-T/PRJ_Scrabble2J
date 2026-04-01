@@ -23,11 +23,12 @@ namespace Scrabble2Joueurs
     {
         Joueur J1;
         Joueur J2;
-        List<char> listeLettre = new List<char> 
+        List<char> listeLettre = new List<char>
         {'A','B','C','D','E','F','G','H','I','J','K','L','M',
         'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
         List<char> listeLettreAff = new List<char> { };
         Random random = new Random();
+        int tour = 0;
 
         public MainWindow()
         {
@@ -73,10 +74,10 @@ namespace Scrabble2Joueurs
                         btnValiderJ1.IsEnabled = false;
                     }
                     //Gestion des lettres
-                    
+
                     Afficher();
                 }
-                    
+
             }
         }
 
@@ -114,14 +115,15 @@ namespace Scrabble2Joueurs
                 txtPointMotJ1.Text = $"{Utilitaire.PointsMot(txtMotJ1.Text)}";
                 txtPointTotMotJ1.Text = $"{J1.GetTotalPoints()}";
                 //Gestion du tour
-                txtTourJ2.Text = "C\' est cotre tour !";
+                txtTourJ2.Text = "C\' est votre tour !";
                 txtTourJ1.Text = "";
                 txtMotJ1.IsEnabled = false;
                 btnValiderJ1.IsEnabled = false;
                 txtMotJ2.IsEnabled = true;
                 btnValiderJ2.IsEnabled = true;
                 Afficher();
-
+                if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
+                    FinDePartie();
             }
         }
 
@@ -138,7 +140,7 @@ namespace Scrabble2Joueurs
                 txtPointMotJ2.Text = $"{Utilitaire.PointsMot(txtMotJ2.Text)}";
                 txtPointTotMotJ2.Text = $"{J2.GetTotalPoints()}";
                 //Gestion du tour
-                txtTourJ1.Text = "C\' est cotre tour !";
+                txtTourJ1.Text = "C\' est votre tour !";
                 txtTourJ2.Text = "";
                 txtMotJ2.IsEnabled = false;
                 btnValiderJ2.IsEnabled = false;
@@ -146,6 +148,11 @@ namespace Scrabble2Joueurs
                 btnValiderJ1.IsEnabled = true;
                 //Gestion des lettres
                 Afficher();
+
+                if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
+                    FinDePartie();
+
+
             }
         }
 
@@ -164,6 +171,48 @@ namespace Scrabble2Joueurs
             txtLettre4.Text = listeLettreAff[4].ToString();
             txtLettre5.Text = listeLettreAff[5].ToString();
             txtLettre6.Text = listeLettreAff[6].ToString();
+        }
+        private void FinDePartie()
+        {
+            txtTourJ1.Text = "";
+            txtMotJ2.IsEnabled = false;
+            btnValiderJ2.IsEnabled = false;
+            txtMotJ1.IsEnabled = false;
+            btnValiderJ1.IsEnabled = false;
+            if (int.Parse(txtPointTotMotJ1.Text) > int.Parse(txtPointTotMotJ2.Text))
+            {
+                txtVainqueur.Text = txtNomJ1.Text;
+                txtMeilleurMot.Text = J1.MotMeilleur();
+                int compt = 1;
+                foreach (string mots in J1.GetLesMots())
+                {
+                    txtListeMot.Text += compt;
+                    txtListeMot.Text += ". ";
+                    txtListeMot.Text += mots;
+                    txtListeMot.Text += " ";
+                    compt++;
+                }
+
+
+            }
+
+            else
+            {
+                txtVainqueur.Text = txtNomJ2.Text;
+                txtMeilleurMot.Text = J2.MotMeilleur();
+                int compt = 1;
+                foreach (string mots in J2.GetLesMots())
+                {
+                    txtListeMot.Text += compt;
+                    txtListeMot.Text += ". ";
+                    txtListeMot.Text += mots;
+                    txtListeMot.Text += " ";
+                    compt++;
+                }
+
+            }
+
+
         }
     }
 }
