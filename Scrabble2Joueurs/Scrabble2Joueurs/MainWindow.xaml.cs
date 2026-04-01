@@ -24,11 +24,13 @@ namespace Scrabble2Joueurs
         Joueur J1;
         Joueur J2;
         List<char> listeLettre = new List<char>
-        {'A','B','C','D','E','F','G','H','I','J','K','L','M',
-        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+        {'A', 'A','A','A','A','A','A','A','A','B','B','C','C','D','D','D','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','F','F','G','G','H','H','I','I','I','I','I','I','I','I','J','K','L','L','L','L','L','L','M','M','M',
+        'N','N','N','N','N','N','N','N','O','O','O','O','O','O','P','P','Q','R','R','R','R','R','R','S','S','S','S','S','S','T','T','T','T','T','T','U','U','U','U','U','U','V','V','W','X','Y','Z'};
+        
         List<char> listeLettreAff = new List<char> { };
         Random random = new Random();
         int tour = 0;
+
 
         public MainWindow()
         {
@@ -37,15 +39,16 @@ namespace Scrabble2Joueurs
 
         private void btnCommencer_Click(object sender, RoutedEventArgs e)
         {
-            if (txtNomJ1.Text == txtNomJ2.Text)
+            if (txtNomJ1.Text == "" || txtNomJ2.Text == "")
             {
-                MessageBox.Show("Erreur : Vous ne pouver pas avoir le même nom que votre adversaire");
+                MessageBox.Show("Erreur : Veuiller entrer un nom pour les deux joueurs", "Erreur",MessageBoxButton.OK,MessageBoxImage.Warning);
             }
             else
             {
-                if (txtNomJ1.Text == "" || txtNomJ2.Text == "")
+                
+                if (txtNomJ1.Text == txtNomJ2.Text)
                 {
-                    MessageBox.Show("Erreur : Veuiller entrer un nom pour les deux joueurs");
+                    MessageBox.Show("Erreur : Vous ne pouver pas avoir le même nom que votre adversaire", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 else
                 {
@@ -57,7 +60,7 @@ namespace Scrabble2Joueurs
                     txtNomJ2.IsEnabled = false;
                     btnCommencer.IsEnabled = false;
                     //Gestion de l'ordre de départ
-                    int quiCommence = random.Next(0, 1);
+                    int quiCommence = random.Next(0, 2);
                     if (quiCommence == 0)
                     {
                         txtTourJ1.Text = "C\' est votre tour !";
@@ -106,7 +109,11 @@ namespace Scrabble2Joueurs
         {
             if (txtMotJ1.Text == "")
             {
-                MessageBox.Show("Erreur : Veuiller entrer un mot");
+                MessageBox.Show("Erreur : Veuiller entrer un mot", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else if (!PeutFormerMot(txtMotJ1.Text))
+            {
+                MessageBox.Show("Erreur : Vous devez utiliser uniquement les lettres affichées", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -121,9 +128,12 @@ namespace Scrabble2Joueurs
                 btnValiderJ1.IsEnabled = false;
                 txtMotJ2.IsEnabled = true;
                 btnValiderJ2.IsEnabled = true;
+                
+                txtMotJ2.Text = "";
                 Afficher();
                 if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
                     FinDePartie();
+
             }
         }
 
@@ -131,7 +141,11 @@ namespace Scrabble2Joueurs
         {
             if (txtMotJ2.Text == "")
             {
-                MessageBox.Show("Erreur : Veuiller entrer un mot");
+                MessageBox.Show("Erreur : Veuiller entrer un mot", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else if (!PeutFormerMot(txtMotJ2.Text))
+            {
+                MessageBox.Show("Erreur : Veuiller entrer un mot valide", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -146,6 +160,8 @@ namespace Scrabble2Joueurs
                 btnValiderJ2.IsEnabled = false;
                 txtMotJ1.IsEnabled = true;
                 btnValiderJ1.IsEnabled = true;
+
+                txtMotJ1.Text = "";
                 //Gestion des lettres
                 Afficher();
 
@@ -162,7 +178,7 @@ namespace Scrabble2Joueurs
             int i = 0;
             for (i = 0; i < 7; i++)
             {
-                listeLettreAff.Add(listeLettre[random.Next(0, 26)]);
+                listeLettreAff.Add(listeLettre[random.Next(0, 100)]);
             }
             txtLettre0.Text = listeLettreAff[0].ToString();
             txtLettre1.Text = listeLettreAff[1].ToString();
@@ -172,6 +188,11 @@ namespace Scrabble2Joueurs
             txtLettre5.Text = listeLettreAff[5].ToString();
             txtLettre6.Text = listeLettreAff[6].ToString();
         }
+
+
+
+
+            
         private void FinDePartie()
         {
             txtTourJ1.Text = "";
@@ -213,6 +234,24 @@ namespace Scrabble2Joueurs
             }
 
 
+        }
+
+        private bool PeutFormerMot(string mot)
+        {
+            List<char> lettresDispo = new List<char>(listeLettreAff);
+
+            foreach (char lettre in mot.ToUpper())
+            {
+                if (lettresDispo.Contains(lettre))
+                {
+                    lettresDispo.Remove(lettre);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
