@@ -41,14 +41,14 @@ namespace Scrabble2Joueurs
         {
             if (txtNomJ1.Text == "" || txtNomJ2.Text == "")
             {
-                MessageBox.Show("Erreur : Veuiller entrer un nom pour les deux joueurs", "Erreur",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show("Erreur : Veuillez entrer un nom pour les deux joueurs", "Erreur",MessageBoxButton.OK,MessageBoxImage.Warning);
             }
             else
             {
                 
                 if (txtNomJ1.Text == txtNomJ2.Text)
                 {
-                    MessageBox.Show("Erreur : Vous ne pouver pas avoir le même nom que votre adversaire", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Erreur : Vous ne pouvez pas avoir le même nom que votre adversaire", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 else
                 {
@@ -109,7 +109,7 @@ namespace Scrabble2Joueurs
         {
             if (txtMotJ1.Text == "")
             {
-                MessageBox.Show("Erreur : Veuiller entrer un mot", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Erreur : Veuillez entrer un mot", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else if (!PeutFormerMot(txtMotJ1.Text))
             {
@@ -131,7 +131,7 @@ namespace Scrabble2Joueurs
                 
                 txtMotJ2.Text = "";
                 Afficher();
-                if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
+                if (txtNbMotJ1.Text == "2" && txtNbMotJ2.Text == "2")
                     FinDePartie();
 
             }
@@ -141,11 +141,11 @@ namespace Scrabble2Joueurs
         {
             if (txtMotJ2.Text == "")
             {
-                MessageBox.Show("Erreur : Veuiller entrer un mot", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Erreur : Veuillez entrer un mot", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else if (!PeutFormerMot(txtMotJ2.Text))
             {
-                MessageBox.Show("Erreur : Veuiller entrer un mot valide", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Erreur : Veuillez entrer un mot valide", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
@@ -165,7 +165,7 @@ namespace Scrabble2Joueurs
                 //Gestion des lettres
                 Afficher();
 
-                if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
+                if (txtNbMotJ1.Text == "2" && txtNbMotJ2.Text == "2")
                     FinDePartie();
 
 
@@ -191,7 +191,6 @@ namespace Scrabble2Joueurs
 
 
 
-
             
         private void FinDePartie()
         {
@@ -200,46 +199,108 @@ namespace Scrabble2Joueurs
             btnValiderJ2.IsEnabled = false;
             txtMotJ1.IsEnabled = false;
             btnValiderJ1.IsEnabled = false;
-            if (int.Parse(txtPointTotMotJ1.Text) > int.Parse(txtPointTotMotJ2.Text))
+
+            //Si égalité
+            if (int.Parse(txtPointTotMotJ1.Text) == int.Parse(txtPointTotMotJ2.Text))
             {
-                txtVainqueur.Text = txtNomJ1.Text;
-                txtMeilleurMot.Text = J1.MotMeilleur();
-                int compt = 1;
-                foreach (string mots in J1.GetLesMots())
+                if (Utilitaire.PointsMot(J1.MotMeilleur()) > Utilitaire.PointsMot(J2.MotMeilleur()))
                 {
-                    txtListeMot.Text += compt;
-                    txtListeMot.Text += ". ";
-                    txtListeMot.Text += mots;
-                    txtListeMot.Text += " ";
-                    compt++;
+                    txtVainqueur.Text = txtNomJ1.Text;
+                    txtMeilleurMot.Text = J1.MotMeilleur();
+                    int compt = 1;
+                    foreach (string mots in J1.GetLesMots())
+                    {
+                        txtListeMot.Text += compt;
+                        txtListeMot.Text += ". ";
+                        txtListeMot.Text += mots;
+                        txtListeMot.Text += " ";
+                        compt++;
+                    }
                 }
+                else
+                {
+                    if (Utilitaire.PointsMot(J1.MotMeilleur()) < Utilitaire.PointsMot(J2.MotMeilleur()))
+                    {
+                        txtVainqueur.Text = txtNomJ2.Text;
+                        txtVainqueur.Text = txtNomJ2.Text;
+                        txtMeilleurMot.Text = J2.MotMeilleur();
+                        int compt = 1;
+                        foreach (string mots in J2.GetLesMots())
+                        {
+                            txtListeMot.Text += compt;
+                            txtListeMot.Text += ". ";
+                            txtListeMot.Text += mots;
+                            txtListeMot.Text += " ";
+                            compt++;
+                        }
+                    }
+                    else
+                    {
+                        txtMeilleurMot.Text = J1.MotMeilleur();
+                        txtMeilleurMot.Text += ", ";
+                        txtMeilleurMot.Text += J2.MotMeilleur();
 
+                        txtVainqueur.Text = "C'est une égalité !";
 
+                        int compt = 1;
+                        foreach (string mots in J1.GetLesMots())
+                        {
+                            txtListeMot.Text += compt;
+                            txtListeMot.Text += ". ";
+                            txtListeMot.Text += mots;
+                            txtListeMot.Text += " ";
+                            compt++;
+                        }
+                        compt = 1;
+                        foreach (string mots in J2.GetLesMots())
+                        {
+                            txtListeMot.Text += compt;
+                            txtListeMot.Text += ". ";
+                            txtListeMot.Text += mots;
+                            txtListeMot.Text += " ";
+                            compt++;
+                        }
+                    }
+                }
             }
-
             else
             {
-                txtVainqueur.Text = txtNomJ2.Text;
-                txtMeilleurMot.Text = J2.MotMeilleur();
-                int compt = 1;
-                foreach (string mots in J2.GetLesMots())
+                //Si J1 Gagne
+                if (int.Parse(txtPointTotMotJ1.Text) > int.Parse(txtPointTotMotJ2.Text))
                 {
-                    txtListeMot.Text += compt;
-                    txtListeMot.Text += ". ";
-                    txtListeMot.Text += mots;
-                    txtListeMot.Text += " ";
-                    compt++;
+
+                    txtVainqueur.Text = txtNomJ1.Text;
+                    txtMeilleurMot.Text = J1.MotMeilleur();
+                    int compt = 1;
+                    foreach (string mots in J1.GetLesMots())
+                    {
+                        txtListeMot.Text += compt;
+                        txtListeMot.Text += ". ";
+                        txtListeMot.Text += mots;
+                        txtListeMot.Text += " ";
+                        compt++;
+                    }
                 }
-
+                //Si J2 Gagne
+                else
+                {
+                    txtVainqueur.Text = txtNomJ2.Text;
+                    txtMeilleurMot.Text = J2.MotMeilleur();
+                    int compt = 1;
+                    foreach (string mots in J2.GetLesMots())
+                    {
+                        txtListeMot.Text += compt;
+                        txtListeMot.Text += ". ";
+                        txtListeMot.Text += mots;
+                        txtListeMot.Text += " ";
+                        compt++;
+                    }
+                }
             }
-
-
         }
-
         private bool PeutFormerMot(string mot)
         {
             List<char> lettresDispo = new List<char>(listeLettreAff);
-
             foreach (char lettre in mot.ToUpper())
             {
                 if (lettresDispo.Contains(lettre))
