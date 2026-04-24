@@ -24,8 +24,8 @@ namespace Scrabble2Joueurs
         Joueur J1;
         Joueur J2;
         List<char> listeLettre = new List<char>
-        {'A', 'A','A','A','A','A','A','A','A','B','B','C','C','D','D','D','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','F','F','G','G','H','H','I','I','I','I','I','I','I','I','J','K','L','L','L','L','L','L','M','M','M',
-        'N','N','N','N','N','N','N','N','O','O','O','O','O','O','P','P','Q','R','R','R','R','R','R','S','S','S','S','S','S','T','T','T','T','T','T','U','U','U','U','U','U','V','V','W','X','Y','Z'};
+        {'A', 'A','A','A','A','A','A','A','A','B','B','C','C','D','D','D','E','E','E','E','E','E','E','E','E','E','E','E','E','E','E','F','F','G','G','H','H','I','I','I','I','I','I','I','I','J','K','L','L','L','L','L','M','M','M',
+        'N','N','N','N','N','N','O','O','O','O','O','O','P','P','Q','R','R','R','R','R','R','S','S','S','S','S','S','T','T','T','T','T','T','U','U','U','U','U','U','V','V','W','X','Y','Z'};
         
         List<char> listeLettreAff = new List<char> { };
         Random random = new Random();
@@ -131,7 +131,7 @@ namespace Scrabble2Joueurs
                 
                 txtMotJ2.Text = "";
                 Afficher();
-                if (txtNbMotJ1.Text == "2" && txtNbMotJ2.Text == "2")
+                if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
                     FinDePartie();
 
             }
@@ -165,7 +165,7 @@ namespace Scrabble2Joueurs
                 //Gestion des lettres
                 Afficher();
 
-                if (txtNbMotJ1.Text == "2" && txtNbMotJ2.Text == "2")
+                if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
                     FinDePartie();
 
 
@@ -178,8 +178,14 @@ namespace Scrabble2Joueurs
             int i = 0;
             for (i = 0; i < 7; i++)
             {
-                listeLettreAff.Add(listeLettre[random.Next(0, 100)]);
+                int aleatoire = random.Next(0, listeLettre.Count+1);
+                listeLettreAff.Add(listeLettre[aleatoire]);
+                listeLettre.RemoveAt(aleatoire);
+                Console.WriteLine(aleatoire);
+                Console.WriteLine(listeLettre[aleatoire]);
+
             }
+            Console.WriteLine(listeLettre.Count());
             txtLettre0.Text = listeLettreAff[0].ToString();
             txtLettre1.Text = listeLettreAff[1].ToString();
             txtLettre2.Text = listeLettreAff[2].ToString();
