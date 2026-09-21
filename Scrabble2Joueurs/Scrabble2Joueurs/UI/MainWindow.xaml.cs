@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MySql.Data;
 
 namespace Scrabble2Joueurs
 {
@@ -35,6 +37,9 @@ namespace Scrabble2Joueurs
         public MainWindow()
         {
             InitializeComponent();
+            MySqlConnection connex = Connexion.Connect();
+            connex.Open();
+            MessageBox.Show(connex.State.ToString());
         }
 
         private void btnCommencer_Click(object sender, RoutedEventArgs e)
@@ -178,11 +183,12 @@ namespace Scrabble2Joueurs
             int i = 0;
             for (i = 0; i < 7; i++)
             {
-                int aleatoire = random.Next(0, listeLettre.Count+1);
+                int aleatoire = random.Next(0, listeLettre.Count);
                 listeLettreAff.Add(listeLettre[aleatoire]);
-                listeLettre.RemoveAt(aleatoire);
                 Console.WriteLine(aleatoire);
                 Console.WriteLine(listeLettre[aleatoire]);
+         //       listeLettre.RemoveAt(aleatoire);
+
 
             }
             Console.WriteLine(listeLettre.Count());
