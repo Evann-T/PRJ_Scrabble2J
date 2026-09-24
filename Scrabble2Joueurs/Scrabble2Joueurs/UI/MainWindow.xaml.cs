@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MySql.Data;
+using Scrabble2Joueurs.Data;
 
 namespace Scrabble2Joueurs
 {
@@ -37,9 +38,12 @@ namespace Scrabble2Joueurs
         public MainWindow()
         {
             InitializeComponent();
-            MySqlConnection connex = Connexion.Connect();
-            connex.Open();
-            MessageBox.Show(connex.State.ToString());
+            HistoriqueParties.Visibility = Visibility.Visible;
+            DebutPartie.Visibility = Visibility.Collapsed;
+            Partie.Visibility = Visibility.Collapsed;
+            ZoneLettres.Visibility = Visibility.Collapsed;
+            FinPartie.Visibility = Visibility.Collapsed;
+            ChargerHistorique();
         }
 
         private void btnCommencer_Click(object sender, RoutedEventArgs e)
@@ -57,6 +61,10 @@ namespace Scrabble2Joueurs
                 }
                 else
                 {
+                    DebutPartie.Visibility = Visibility.Visible;
+                    Partie.Visibility = Visibility.Visible;
+                    ZoneLettres.Visibility = Visibility.Visible;
+
                     txtInfosNomJ1.Text = txtNomJ1.Text;
                     txtInfosNomj2.Text = txtNomJ2.Text;
                     J1 = new Joueur(txtNomJ1.Text);
@@ -88,6 +96,38 @@ namespace Scrabble2Joueurs
 
             }
         }
+
+        private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
+        {
+            // Cacher l'historique
+            HistoriqueParties.Visibility = Visibility.Collapsed;
+
+            // Afficher l'écran d'accueil
+            DebutPartie.Visibility = Visibility.Visible;
+
+            // Cacher le reste
+            Partie.Visibility = Visibility.Collapsed;
+            ZoneLettres.Visibility = Visibility.Collapsed;
+            FinPartie.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnContinuer_Click(object sender, RoutedEventArgs e)
+        {
+            // Cacher l'écran de fin
+            FinPartie.Visibility = Visibility.Collapsed;
+
+            // Afficher l'historique
+            HistoriqueParties.Visibility = Visibility.Visible;
+
+            // Cacher les autres écrans
+            DebutPartie.Visibility = Visibility.Collapsed;
+            Partie.Visibility = Visibility.Collapsed;
+            ZoneLettres.Visibility = Visibility.Collapsed;
+
+            // Recharger l'historique
+            ChargerHistorique();
+        }
+
 
         private void txtNomJ1_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -206,7 +246,14 @@ namespace Scrabble2Joueurs
             
         private void FinDePartie()
         {
+            EnregistrerPartie();
+            Partie.Visibility = Visibility.Collapsed;
+            ZoneLettres.Visibility = Visibility.Collapsed;
+            FinPartie.Visibility = Visibility.Visible;
+
             txtTourJ1.Text = "";
+            txtTourJ2.Text = "";
+
             txtMotJ2.IsEnabled = false;
             btnValiderJ2.IsEnabled = false;
             txtMotJ1.IsEnabled = false;
@@ -326,5 +373,83 @@ namespace Scrabble2Joueurs
             }
             return true;
         }
+
+        private void ChargerHistorique()
+        {
+            List<Partie> parties = new List<Partie>();
+
+            using (MySqlConnection connexion = Connexion.Connect())
+            {
+                connexion.Open();
+
+                string requete = @"
+            SELECT date,
+                   nomJoueur1,
+                   scoreJoueur1,
+                   nomJoueur2,
+                   scoreJoueur2
+            FROM partie
+            ORDER BY date DESC";
+
+                using (MySqlCommand commande =
+                       new MySqlCommand(requete, connexion))
+                {
+                    using (MySqlDataReader reader = commande.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            parties.Add(new Partie
+                            {
+                                DatePartie = reader.GetDateTime("date"),
+                                NomJoueur1 = reader.GetString("nomJoueur1"),
+                                ScoreJoueur1 = reader.GetInt32("scoreJoueur1"),
+                                NomJoueur2 = reader.GetString("nomJoueur2"),
+                                ScoreJoueur2 = reader.GetInt32("scoreJoueur2")
+                            });
+                        }
+                    }
+                }
+            }
+
+            dataHistorique.ItemsSource = parties;
+        }
+
+        private void EnregistrerPartie()
+        {
+            using (MySqlConnection connexion = Connexion.Connect())
+            {
+                connexion.Open();
+
+                string requete = @"
+            INSERT INTO partie
+            (nomJoueur1, scoreJoueur1, nomJoueur2, scoreJoueur2)
+            VALUES
+            (@nomJoueur1, @scoreJoueur1, @nomJoueur2, @scoreJoueur2)";
+
+                using (MySqlCommand commande =
+                       new MySqlCommand(requete, connexion))
+                {
+                    commande.Parameters.AddWithValue(
+                        "@nomJoueur1",
+                        txtNomJ1.Text);
+
+                    commande.Parameters.AddWithValue(
+                        "@scoreJoueur1",
+                        J1.GetTotalPoints());
+
+                    commande.Parameters.AddWithValue(
+                        "@nomJoueur2",
+                        txtNomJ2.Text);
+
+                    commande.Parameters.AddWithValue(
+                        "@scoreJoueur2",
+                        J2.GetTotalPoints());
+
+                    commande.ExecuteNonQuery();
+                }
+            }
+        }
+
+
     }
 }

@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="Business\Joueur.cs" />
     <Compile Include="Data\Connexion.cs" />
+    <Compile Include="Data\Partie.cs" />
     <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

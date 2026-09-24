@@ -51,17 +51,15 @@
             <RowDefinition Height="65*"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="DebutPartie" Grid.Row="0" Margin="0,0,0,4" >
+        <Grid x:Name="DebutPartie" Grid.Row="0" Margin="0,0,0,4">
             <Label Content="Entrez le nom du Joueur 1" HorizontalAlignment="Left" Margin="100,15,0,0" VerticalAlignment="Top"  />
             <TextBox x:Name="txtNomJ1" HorizontalAlignment="Left" Margin="300,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0"   Background="IndianRed" TextChanged="txtNomJ1_TextChanged" />
             <Label Content="Entrez le nom du Joueur 2" HorizontalAlignment="Left" Margin="100,45,0,0" VerticalAlignment="Top" />
             <TextBox x:Name="txtNomJ2" HorizontalAlignment="Left" Margin="300,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0" Background="LightSteelBlue" TextChanged="txtNomJ2_TextChanged"/>
             <Button x:Name="btnCommencer" Content="COMMENCER" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="600,35,0,0" Click="btnCommencer_Click" />
             <TextBlock x:Name="txtErreur" HorizontalAlignment="Right" Margin="0,65,10,0" VerticalAlignment="Top" Background="White"/>
-
-
         </Grid>
-        <Grid x:Name="Partie" Grid.Row="2" Margin="0,1,0,0">
+        <Grid x:Name="Partie" Grid.Row="2" Margin="0,1,0,0" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -121,32 +119,97 @@
             </Border>
 
         </Grid>
-        <Grid x:Name="FinPartie" Grid.Row="3" Margin="0,26,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="351*"/>
-                <ColumnDefinition Width="49*"/>
-                <ColumnDefinition Width="400*"/>
-            </Grid.ColumnDefinitions>
-            <Label Content="Vainqueur :" HorizontalAlignment="Left" Margin="10,-29,0,0" VerticalAlignment="Top" />
-            <TextBlock x:Name="txtVainqueur" HorizontalAlignment="Left" Margin="90,-22,0,0" VerticalAlignment="Top" Background="White" />
+        
+        <!--lettres-->
+        <Grid x:Name="ZoneLettres" Grid.Row="1" Visibility="Collapsed">
+            <Label Content="Lettres disponibles :" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Center" Grid.Row="1" />
+            <TextBlock x:Name="txtLettre0" HorizontalAlignment="Left" Margin="351,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+            <TextBlock x:Name="txtLettre1" HorizontalAlignment="Left" Margin="381,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+            <TextBlock x:Name="txtLettre2" HorizontalAlignment="Left" Margin="411,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+            <TextBlock x:Name="txtLettre3" HorizontalAlignment="Left" Margin="441,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+            <TextBlock x:Name="txtLettre4" HorizontalAlignment="Left" Margin="471,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+            <TextBlock x:Name="txtLettre5" HorizontalAlignment="Left" Margin="501,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+            <TextBlock x:Name="txtLettre6" HorizontalAlignment="Left" Margin="531,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+        </Grid>
 
-            <Label Content="Meilleur mot :" HorizontalAlignment="Left" Margin="27,-29,0,0" VerticalAlignment="Top" Grid.Column="2" />
-            <TextBlock x:Name="txtMeilleurMot" HorizontalAlignment="Left" Margin="131,-22,0,0" VerticalAlignment="Top" Background="White" Grid.Column="2"/>
-
-
-            <Label Content="Liste des mots :" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
-            <TextBlock x:Name="txtListeMot" HorizontalAlignment="Left" Margin="-276,9,0,0" VerticalAlignment="Center" Background="White" Grid.Column="2"/>
+        <Grid x:Name="FinPartie" Grid.RowSpan="4" Margin="0,0,0,0" Background="White" Visibility="Collapsed">
+            <Label Content="FIN DE LA PARTIE" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Margin="0,15,0,0"/>
+            <!-- Vainqueur -->
+            <Label Content="Vainqueur :" HorizontalAlignment="Left" Margin="100,70,0,0" VerticalAlignment="Top"/>
+            <TextBlock x:Name="txtVainqueur" HorizontalAlignment="Left" Margin="210,78,0,0" VerticalAlignment="Top" Background="White"/>
+            <!-- Meilleur mot -->
+            <Label Content="Meilleur mot :" HorizontalAlignment="Left" Margin="100,110,0,0" VerticalAlignment="Top"/>
+            <TextBlock x:Name="txtMeilleurMot" HorizontalAlignment="Left" Margin="210,118,0,0" VerticalAlignment="Top" Background="White"/>
+            <!-- Liste des mots -->
+            <Label Content="Liste des mots :" HorizontalAlignment="Left" Margin="100,150,0,0" VerticalAlignment="Top"/>
+            <TextBlock x:Name="txtListeMot" HorizontalAlignment="Left" Margin="210,158,0,0" VerticalAlignment="Top" Background="White" TextWrapping="Wrap" Width="450" Height="100"/>
+            <!-- Continuer -->
+            <Button x:Name="btnContinuer" Content="CONTINUER" Width="150" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" Click="btnContinuer_Click"/>
 
         </Grid>
-        <!--lettres-->
+        <!-- ====================================================== -->
+        <!--                  HISTORIQUE DES PARTIES                -->
+        <!-- ====================================================== -->
 
-        <Label Content="Lettres disponibles :" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Center" Grid.Row="1" />
-        <TextBlock x:Name="txtLettre0" HorizontalAlignment="Left" Margin="351,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
-        <TextBlock x:Name="txtLettre1" HorizontalAlignment="Left" Margin="381,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
-        <TextBlock x:Name="txtLettre2" HorizontalAlignment="Left" Margin="411,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
-        <TextBlock x:Name="txtLettre3" HorizontalAlignment="Left" Margin="441,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
-        <TextBlock x:Name="txtLettre4" HorizontalAlignment="Left" Margin="471,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
-        <TextBlock x:Name="txtLettre5" HorizontalAlignment="Left" Margin="501,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
-        <TextBlock x:Name="txtLettre6" HorizontalAlignment="Left" Margin="531,0,0,0" VerticalAlignment="Center" Width="22" Background="LightGray" Grid.Row="1"/>
+        <Grid x:Name="HistoriqueParties"
+              Grid.RowSpan="4"
+              Background="White"
+              Visibility="Visible">
+
+            <Label Content="HISTORIQUE DES PARTIES"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   FontSize="24"
+                   Margin="0,15,0,0"/>
+
+
+            <!-- Tableau historique -->
+
+            <DataGrid x:Name="dataHistorique"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      Margin="20,65,20,70">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Date"
+                                        Width="150"
+                                        Binding="{Binding DatePartie,
+                                                          StringFormat=dd/MM/yyyy HH:mm}"/>
+
+                    <DataGridTextColumn Header="Joueur 1"
+                                        Width="150"
+                                        Binding="{Binding NomJoueur1}"/>
+
+                    <DataGridTextColumn Header="Score J1"
+                                        Width="100"
+                                        Binding="{Binding ScoreJoueur1}"/>
+
+                    <DataGridTextColumn Header="Joueur 2"
+                                        Width="150"
+                                        Binding="{Binding NomJoueur2}"/>
+
+                    <DataGridTextColumn Header="Score J2"
+                                        Width="100"
+                                        Binding="{Binding ScoreJoueur2}"/>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+
+            <!-- Nouvelle partie -->
+
+            <Button x:Name="btnNouvellePartie"
+                    Content="NOUVELLE PARTIE"
+                    Width="150"
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,0,15"
+                    Click="btnNouvellePartie_Click"/>
+
+        </Grid>
+
     </Grid>
 </Window>
