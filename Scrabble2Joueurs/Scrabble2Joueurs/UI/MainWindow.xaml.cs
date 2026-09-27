@@ -99,13 +99,10 @@ namespace Scrabble2Joueurs
 
         private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
         {
-            // Cacher l'historique
             HistoriqueParties.Visibility = Visibility.Collapsed;
 
-            // Afficher l'écran d'accueil
             DebutPartie.Visibility = Visibility.Visible;
 
-            // Cacher le reste
             Partie.Visibility = Visibility.Collapsed;
             ZoneLettres.Visibility = Visibility.Collapsed;
             FinPartie.Visibility = Visibility.Collapsed;
@@ -113,18 +110,14 @@ namespace Scrabble2Joueurs
 
         private void btnContinuer_Click(object sender, RoutedEventArgs e)
         {
-            // Cacher l'écran de fin
             FinPartie.Visibility = Visibility.Collapsed;
 
-            // Afficher l'historique
             HistoriqueParties.Visibility = Visibility.Visible;
 
-            // Cacher les autres écrans
             DebutPartie.Visibility = Visibility.Collapsed;
             Partie.Visibility = Visibility.Collapsed;
             ZoneLettres.Visibility = Visibility.Collapsed;
 
-            // Recharger l'historique
             ChargerHistorique();
         }
 
@@ -377,17 +370,11 @@ namespace Scrabble2Joueurs
         private void ChargerHistorique()
         {
             List<Partie> parties = new List<Partie>();
-
             using (MySqlConnection connexion = Connexion.Connect())
             {
                 connexion.Open();
-
                 string requete = @"
-            SELECT date,
-                   nomJoueur1,
-                   scoreJoueur1,
-                   nomJoueur2,
-                   scoreJoueur2
+            SELECT date, nomJoueur1, scoreJoueur1, nomJoueur2, scoreJoueur2
             FROM partie
             ORDER BY date DESC";
 
@@ -410,7 +397,6 @@ namespace Scrabble2Joueurs
                     }
                 }
             }
-
             dataHistorique.ItemsSource = parties;
         }
 
@@ -419,10 +405,8 @@ namespace Scrabble2Joueurs
             using (MySqlConnection connexion = Connexion.Connect())
             {
                 connexion.Open();
-
                 string requete = @"
-            INSERT INTO partie
-            (nomJoueur1, scoreJoueur1, nomJoueur2, scoreJoueur2)
+            INSERT INTO partie (nomJoueur1, scoreJoueur1, nomJoueur2, scoreJoueur2)
             VALUES
             (@nomJoueur1, @scoreJoueur1, @nomJoueur2, @scoreJoueur2)";
 
@@ -449,7 +433,5 @@ namespace Scrabble2Joueurs
                 }
             }
         }
-
-
     }
 }

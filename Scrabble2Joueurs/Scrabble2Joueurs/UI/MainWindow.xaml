@@ -73,7 +73,6 @@
                     <TextBlock x:Name="txtInfosNomJ1" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" Background="IndianRed"/>
                     <TextBlock x:Name="txtTourJ1" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" Background="IndianRed"/>
 
-
                     <!--Entrer mot-->
                     <Label Content="Entrer votre mot :" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" />
                     <TextBox x:Name="txtMotJ1" HorizontalAlignment="Left" Margin="150,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" BorderThickness="0,0,0,0" Background="White" TextChanged="txtMotJ1_TextChanged"/>
@@ -97,8 +96,6 @@
 
                     <TextBlock x:Name="txtInfosNomj2" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" Background="LightSteelBlue" />
                     <TextBlock x:Name="txtTourJ2" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" Background="LightSteelBlue"/>
-
-
 
                     <!--Entrer mot-->
                     <Label Content="Entrer votre mot :" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" />
@@ -147,69 +144,22 @@
             <Button x:Name="btnContinuer" Content="CONTINUER" Width="150" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" Click="btnContinuer_Click"/>
 
         </Grid>
-        <!-- ====================================================== -->
-        <!--                  HISTORIQUE DES PARTIES                -->
-        <!-- ====================================================== -->
 
-        <Grid x:Name="HistoriqueParties"
-              Grid.RowSpan="4"
-              Background="White"
-              Visibility="Visible">
-
-            <Label Content="HISTORIQUE DES PARTIES"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   FontSize="24"
-                   Margin="0,15,0,0"/>
-
-
-            <!-- Tableau historique -->
-
-            <DataGrid x:Name="dataHistorique"
-                      AutoGenerateColumns="False"
-                      IsReadOnly="True"
-                      Margin="20,65,20,70">
-
+        <!--Gestion de l'historique-->
+        <Grid x:Name="HistoriqueParties" Grid.RowSpan="4" Background="White" Visibility="Visible">
+            <Label Content="HISTORIQUE DES PARTIES" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Margin="0,15,0,0"/>
+            <!-- Tableau de l'historique -->
+            <DataGrid x:Name="dataHistorique" AutoGenerateColumns="False" IsReadOnly="True" Margin="20,65,20,70">
                 <DataGrid.Columns>
-
-                    <DataGridTextColumn Header="Date"
-                                        Width="150"
-                                        Binding="{Binding DatePartie,
-                                                          StringFormat=dd/MM/yyyy HH:mm}"/>
-
-                    <DataGridTextColumn Header="Joueur 1"
-                                        Width="150"
-                                        Binding="{Binding NomJoueur1}"/>
-
-                    <DataGridTextColumn Header="Score J1"
-                                        Width="100"
-                                        Binding="{Binding ScoreJoueur1}"/>
-
-                    <DataGridTextColumn Header="Joueur 2"
-                                        Width="150"
-                                        Binding="{Binding NomJoueur2}"/>
-
-                    <DataGridTextColumn Header="Score J2"
-                                        Width="100"
-                                        Binding="{Binding ScoreJoueur2}"/>
-
+                    <DataGridTextColumn Header="Date" Width="150" Binding="{Binding DatePartie, StringFormat=dd/MM/yyyy HH:mm}"/>
+                    <DataGridTextColumn Header="Joueur 1" Width="150" Binding="{Binding NomJoueur1}"/>
+                    <DataGridTextColumn Header="Score J1" Width="100" Binding="{Binding ScoreJoueur1}"/>
+                    <DataGridTextColumn Header="Joueur 2" Width="150" Binding="{Binding NomJoueur2}"/>
+                    <DataGridTextColumn Header="Score J2" Width="100" Binding="{Binding ScoreJoueur2}"/>
                 </DataGrid.Columns>
-
             </DataGrid>
-
-
             <!-- Nouvelle partie -->
-
-            <Button x:Name="btnNouvellePartie"
-                    Content="NOUVELLE PARTIE"
-                    Width="150"
-                    Height="30"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Margin="0,0,0,15"
-                    Click="btnNouvellePartie_Click"/>
-
+            <Button x:Name="btnNouvellePartie" Content="NOUVELLE PARTIE" Width="150" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15" Click="btnNouvellePartie_Click"/>
         </Grid>
-
     </Grid>
 </Window>
