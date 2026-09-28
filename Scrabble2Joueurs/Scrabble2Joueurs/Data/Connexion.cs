@@ -21,7 +21,7 @@ namespace Scrabble2Joueurs
             }
             catch (Exception e)
             {
-                Console.WriteLine("Erreur");
+                Console.WriteLine("Erreur", e);
             }
 
             return connex;

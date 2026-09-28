@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -14,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MySql.Data;
 using Scrabble2Joueurs.Data;
 
 namespace Scrabble2Joueurs
@@ -32,7 +30,7 @@ namespace Scrabble2Joueurs
         
         List<char> listeLettreAff = new List<char> { };
         Random random = new Random();
-        int tour = 0;
+        PartieDAO partieDAO = new PartieDAO();
 
 
         public MainWindow()
@@ -99,10 +97,8 @@ namespace Scrabble2Joueurs
 
         private void btnNouvellePartie_Click(object sender, RoutedEventArgs e)
         {
-            HistoriqueParties.Visibility = Visibility.Collapsed;
-
             DebutPartie.Visibility = Visibility.Visible;
-
+            HistoriqueParties.Visibility = Visibility.Collapsed;
             Partie.Visibility = Visibility.Collapsed;
             ZoneLettres.Visibility = Visibility.Collapsed;
             FinPartie.Visibility = Visibility.Collapsed;
@@ -171,7 +167,6 @@ namespace Scrabble2Joueurs
                 Afficher();
                 if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
                     FinDePartie();
-
             }
         }
 
@@ -203,7 +198,7 @@ namespace Scrabble2Joueurs
                 //Gestion des lettres
                 Afficher();
 
-                if (txtNbMotJ1.Text == "10" && txtNbMotJ2.Text == "10")
+                if (txtNbMotJ1.Text == "2" && txtNbMotJ2.Text == "2")
                     FinDePartie();
 
 
@@ -369,69 +364,23 @@ namespace Scrabble2Joueurs
 
         private void ChargerHistorique()
         {
-            List<Partie> parties = new List<Partie>();
-            using (MySqlConnection connexion = Connexion.Connect())
-            {
-                connexion.Open();
-                string requete = @"
-            SELECT date, nomJoueur1, scoreJoueur1, nomJoueur2, scoreJoueur2
-            FROM partie
-            ORDER BY date DESC";
-
-                using (MySqlCommand commande =
-                       new MySqlCommand(requete, connexion))
-                {
-                    using (MySqlDataReader reader = commande.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            parties.Add(new Partie
-                            {
-                                DatePartie = reader.GetDateTime("date"),
-                                NomJoueur1 = reader.GetString("nomJoueur1"),
-                                ScoreJoueur1 = reader.GetInt32("scoreJoueur1"),
-                                NomJoueur2 = reader.GetString("nomJoueur2"),
-                                ScoreJoueur2 = reader.GetInt32("scoreJoueur2")
-                            });
-                        }
-                    }
-                }
-            }
-            dataHistorique.ItemsSource = parties;
+            List<Partie> parties = partieDAO.GetAllParties();
+            dgPartie.ItemsSource = parties;
         }
+
 
         private void EnregistrerPartie()
         {
-            using (MySqlConnection connexion = Connexion.Connect())
-            {
-                connexion.Open();
-                string requete = @"
-            INSERT INTO partie (nomJoueur1, scoreJoueur1, nomJoueur2, scoreJoueur2)
-            VALUES
-            (@nomJoueur1, @scoreJoueur1, @nomJoueur2, @scoreJoueur2)";
-
-                using (MySqlCommand commande =
-                       new MySqlCommand(requete, connexion))
-                {
-                    commande.Parameters.AddWithValue(
-                        "@nomJoueur1",
-                        txtNomJ1.Text);
-
-                    commande.Parameters.AddWithValue(
-                        "@scoreJoueur1",
-                        J1.GetTotalPoints());
-
-                    commande.Parameters.AddWithValue(
-                        "@nomJoueur2",
-                        txtNomJ2.Text);
-
-                    commande.Parameters.AddWithValue(
-                        "@scoreJoueur2",
-                        J2.GetTotalPoints());
-
-                    commande.ExecuteNonQuery();
-                }
-            }
+            Partie partie = new Partie(
+                DateTime.Now,
+                txtNomJ1.Text,
+                J1.GetTotalPoints(),
+                txtNomJ2.Text,
+                J2.GetTotalPoints()
+            );
+            partieDAO.AddPartie(partie);
         }
+
     }
 }
+
